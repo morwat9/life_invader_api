@@ -5,6 +5,7 @@ const mainRouter = require('./routes')
 const dotenv = require('dotenv')
 const app = express()
 
+
 dotenv.config()
 
 const uri = process.env.MONGODB_URI
@@ -17,6 +18,7 @@ db.once('open', function() {
     console.log('Successful connection.')
 })
 
+app.use(bodyParser.urlencoded({ extended: false}))
 
 app.use(bodyParser.json())
 
