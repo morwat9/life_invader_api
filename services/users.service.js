@@ -62,7 +62,11 @@ async function _deactivate(id) {
         _id: mongoose.Types.ObjectId(id),
         deactivatedAt: null,
       },
-      { deactivatedAt: Date.now() },
+      {
+        $set: {
+          deactivatedAt: Date.now(),
+        },
+      },
       { new: true }
     );
     return result;
