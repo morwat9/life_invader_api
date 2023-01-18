@@ -4,10 +4,15 @@ const bodyParser = require("body-parser");
 const mainRouter = require("./routes");
 const dotenv = require("dotenv");
 const app = express();
+const cors = require("cors");
 
 dotenv.config();
 
 const uri = process.env.MONGODB_URI;
+
+const corsOptions = {
+  origin: `http://localhost:3001`,
+};
 
 mongoose.connect(uri, {
   useNewUrlParser: true,
@@ -20,6 +25,8 @@ db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", function () {
   console.log("Successful connection.");
 });
+
+app.use(cors(corsOptions));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 

@@ -11,6 +11,7 @@ module.exports = (apiPrefix) => {
     create: _create,
     update: _update,
     deactivate: _deactivate,
+    login: _login,
   };
 };
 
@@ -55,5 +56,14 @@ async function _deactivate(req, res) {
     res.json(user);
   } catch (error) {
     res.status(400).send(error);
+  }
+}
+
+async function _login(req, res) {
+  try {
+    const token = await usersService.login(req.body);
+    res.status(200).send(token);
+  } catch (error) {
+    res.status(400).send(error.message);
   }
 }
