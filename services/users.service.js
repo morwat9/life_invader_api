@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
 const User = require("../models/users.model.js");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 module.exports = {
   read: _read,
@@ -7,6 +9,7 @@ module.exports = {
   create: _create,
   update: _update,
   deactivate: _deactivate,
+  login: _login,
 };
 
 async function _read() {
@@ -72,5 +75,34 @@ async function _deactivate(id) {
     return result;
   } catch (error) {
     return error;
+  }
+}
+
+async function _login(body) {
+  try {
+    const user = await User.findOne({ email: body.email });
+
+    if (!user) {
+      throw new Error("Authentication Error");
+    }
+
+    const passwordIsValid = bcrypt.compareSync(body.password, user.password);
+
+    if (!passwordIsValid) {
+      throw new Error("Authentication Error.");
+    }
+
+    const token = jwt.sign({ id: user._id }, process.env.AUTH_SECRET, {
+      expiresIn: 864000,
+    });
+
+    return {
+      id: user._id,
+      username: user.username,
+      email: user.email,
+      accessToken: token,
+    };
+  } catch (error) {
+    throw error;
   }
 }
