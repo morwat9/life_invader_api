@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema(
     phone: String,
     username: String,
     password: String,
+    profilePicture: String,
     deactivatedAt: {
       type: Date,
       default: null,
@@ -30,6 +31,6 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-const User = mongoose.model("user", userSchema);
+const User = mongoose.model("User", userSchema);
 
 module.exports = User;

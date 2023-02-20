@@ -11,6 +11,7 @@ module.exports = (apiPrefix) => {
     create: _create,
     update: _update,
     deactivate: _deactivate,
+    getFeed: _getFeed,
   };
 };
 
@@ -56,5 +57,14 @@ async function _deactivate(req, res) {
     res.send(result);
   } catch (error) {
     res.status(400).send(error);
+  }
+}
+
+async function _getFeed(req, res) {
+  try {
+    const posts = await postsService.getFeed();
+    res.json(posts);
+  } catch (error) {
+    res.send(error);
   }
 }

@@ -3,10 +3,10 @@ const mongoose = require("mongoose");
 const commentSchema = new mongoose.Schema(
   {
     body: String,
-    author: { type: mongoose.Types.ObjectId, ref: "users" },
-    post: { type: mongoose.Types.ObjectId, ref: "posts" },
+    author: { type: mongoose.Types.ObjectId, ref: "User" },
+    source: { type: mongoose.Types.ObjectId, ref: "Post" },
     likes: {
-      type: [{ type: mongoose.Types.ObjectId, ref: "users" }],
+      type: [{ type: mongoose.Types.ObjectId, ref: "User" }],
       default: [],
     },
     deactivatedAt: {
@@ -20,6 +20,6 @@ const commentSchema = new mongoose.Schema(
   }
 );
 
-const Comment = mongoose.model("comment", commentSchema);
+const Comment = mongoose.model("Comment", commentSchema);
 
 module.exports = Comment;

@@ -95,11 +95,10 @@ async function _login(body) {
     const token = jwt.sign({ id: user._id }, process.env.AUTH_SECRET, {
       expiresIn: 864000,
     });
-
     return {
       id: user._id,
       username: user.username,
-      email: user.email,
+      profilePicture: user.profilePicture,
       accessToken: token,
     };
   } catch (error) {

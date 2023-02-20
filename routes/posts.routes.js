@@ -6,6 +6,7 @@ module.exports = function (apiPrefix) {
 
   router.get("/", postsController.read);
   router.get("/:id([0-9a-zA-Z]{24})", postsController.readById);
+  router.get("/feed", postsController.getFeed);
   router.post("/", postsController.create);
   router.put("/:id([0-9a-zA-Z]{24})", postsController.update);
   router.delete("/:id([0-9a-zA-Z]{24})", postsController.deactivate);
