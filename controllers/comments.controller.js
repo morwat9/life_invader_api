@@ -11,6 +11,8 @@ module.exports = (apiPrefix) => {
     create: _create,
     update: _update,
     deactivate: _deactivate,
+    addComment: _addComment,
+    getComments: _getComments,
   };
 };
 
@@ -54,6 +56,24 @@ async function _deactivate(req, res) {
   try {
     const result = await commentsService.deactivate(req.params.id);
     res.send(result);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+}
+
+async function _addComment(req, res) {
+  try {
+    const result = await commentsService.addComment(req.params.id, req.body);
+    res.json(result);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+}
+
+async function _getComments(req, res) {
+  try {
+    const result = await commentsService.getComments(req.params.id);
+    res.json(result);
   } catch (error) {
     res.status(400).send(error);
   }

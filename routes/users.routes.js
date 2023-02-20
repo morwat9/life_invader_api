@@ -6,7 +6,11 @@ module.exports = function (apiPrefix) {
   const usersController = usersControllerFactory(apiPrefix);
 
   router.get("/", authJwt.verifyToken, usersController.read);
-  router.get("/:id([0-9a-zA-Z]{24})", usersController.readById);
+  router.get(
+    "/:id([0-9a-zA-Z]{24})",
+    authJwt.verifyToken,
+    usersController.readById
+  );
   router.post(
     "/",
     verifySignUp.checkDuplicateUsernameAndEmail,

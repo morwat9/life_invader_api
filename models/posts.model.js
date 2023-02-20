@@ -4,13 +4,13 @@ const postSchema = new mongoose.Schema(
   {
     body: String,
     pictureUrl: String,
-    author: { type: mongoose.Types.ObjectId, ref: "users" },
+    author: { type: mongoose.Types.ObjectId, ref: "User" },
     likes: {
-      type: [{ type: mongoose.Types.ObjectId, ref: "users" }],
+      type: [{ type: mongoose.Types.ObjectId, ref: "User" }],
       default: [],
     },
     comments: {
-      type: [{ type: mongoose.Types.ObjectId, ref: "comments" }],
+      type: [{ type: mongoose.Types.ObjectId, ref: "Comment" }],
       default: [],
     },
     deactivatedAt: {
@@ -24,6 +24,6 @@ const postSchema = new mongoose.Schema(
   }
 );
 
-const Post = mongoose.model("post", postSchema);
+const Post = mongoose.model("Post", postSchema);
 
 module.exports = Post;

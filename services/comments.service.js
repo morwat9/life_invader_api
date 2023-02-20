@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Comment = require("../models/comments.model");
+const Post = require("../models/posts.model");
 
 module.exports = {
   read: _read,
@@ -7,6 +8,8 @@ module.exports = {
   create: _create,
   update: _update,
   deactivate: _deactivate,
+  addComment: _addComment,
+  getComments: _getComments,
 };
 
 async function _read() {
@@ -70,6 +73,43 @@ async function _deactivate(id) {
       { new: true }
     );
     return result;
+  } catch (error) {
+    return error;
+  }
+}
+
+async function _addComment(postId, comment) {
+  try {
+    const commentResult = await Comment.create(comment);
+    const postResult = await Post.findOneAndUpdate(
+      { _id: mongoose.Types.ObjectId(postId), deactivatedAt: null },
+      {
+        $push: {
+          comments: commentResult._id,
+        },
+      },
+      { new: true }
+    );
+    return postResult;
+  } catch (error) {
+    return error;
+  }
+}
+
+async function _getComments(postId) {
+  try {
+    const postResult = await Post.findOne({ _id: postId, deactivatedAt: null });
+    console.log(postResult);
+    const commentIds = postResult.comments;
+    const comments = await Comment.find({ _id: { $in: commentIds } })
+      .populate({
+        path: "author",
+        select: "username profilePicture",
+      })
+      .sort({ createdAt: 1 });
+
+    console.log(comments);
+    return comments;
   } catch (error) {
     return error;
   }

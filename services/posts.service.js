@@ -7,6 +7,7 @@ module.exports = {
   create: _create,
   update: _update,
   deactivate: _deactivate,
+  getFeed: _getFeed,
 };
 
 async function _read() {
@@ -70,6 +71,30 @@ async function _deactivate(id) {
       { new: true }
     );
     return result;
+  } catch (error) {
+    return error;
+  }
+}
+//.sort({ createdAt: 1 })
+async function _getFeed() {
+  try {
+    const posts = await Post.find({ deactivatedAt: null })
+      .populate([
+        {
+          path: "author",
+          select: "username profilePicture",
+        },
+        {
+          path: "comments",
+          select: "source author body comments likes",
+          populate: {
+            path: "author",
+            select: "username profilePicture",
+          },
+        },
+      ])
+      .sort({ createdAt: -1 });
+    return posts;
   } catch (error) {
     return error;
   }
