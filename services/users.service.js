@@ -95,6 +95,9 @@ async function _login(body) {
     const token = jwt.sign({ id: user._id }, process.env.AUTH_SECRET, {
       expiresIn: 864000,
     });
+
+    await User.findByIdAndUpdate(user._id, { lastLogin: new Date() })
+
     return {
       id: user._id,
       username: user.username,

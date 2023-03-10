@@ -82,15 +82,16 @@ async function _getFeed() {
       .populate([
         {
           path: "author",
-          select: "username profilePicture",
+          select: "username profilePicture email _id",
         },
         {
           path: "comments",
           select: "source author body comments likes",
           populate: {
             path: "author",
-            select: "username profilePicture",
+            select: "username profilePicture email",
           },
+          match: { deactivatedAt: null }
         },
       ])
       .sort({ createdAt: -1 });
