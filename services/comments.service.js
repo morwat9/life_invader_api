@@ -101,10 +101,10 @@ async function _getComments(postId) {
     const postResult = await Post.findOne({ _id: postId, deactivatedAt: null });
     console.log(postResult);
     const commentIds = postResult.comments;
-    const comments = await Comment.find({ _id: { $in: commentIds } })
+    const comments = await Comment.find({ _id: { $in: commentIds }, deactivatedAt: null })
       .populate({
         path: "author",
-        select: "username profilePicture",
+        select: "username profilePicture email",
       })
       .sort({ createdAt: 1 });
 
