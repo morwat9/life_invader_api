@@ -11,7 +11,7 @@ dotenv.config();
 const uri = process.env.MONGODB_URI;
 
 const corsOptions = {
-  origin: `https://lifeinvaderapi-production.up.railway.app`,
+  origin: `*`,
 };
 
 mongoose.connect(uri, {
