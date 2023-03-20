@@ -11,7 +11,7 @@ dotenv.config();
 const uri = process.env.MONGODB_URI;
 
 const corsOptions = {
-  origin: `http://localhost:3001`,
+  origin: `https://lifeinvaderapi-production.up.railway.app/`,
 };
 
 mongoose.connect(uri, {
